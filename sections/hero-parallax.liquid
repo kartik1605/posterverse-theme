@@ -128,8 +128,8 @@
                   --pv-w: {{ block.settings.size }}px;
                   --pv-r: {{ block.settings.rotation }}deg;
                   --pv-delay: {{ block.settings.delay }}s;
-                  top: {{ block.settings.pos_top }}%;
-                  left: {{ block.settings.pos_left }}%;
+                  --pv-top: {{ block.settings.pos_top }}%;
+                  --pv-left: {{ block.settings.pos_left }}%;
                 "
                 {{ block.shopify_attributes }}
               >
@@ -141,8 +141,8 @@
               style="
                 --pv-s: {{ block.settings.size }}rem;
                 --pv-delay: {{ block.settings.delay }}s;
-                top: {{ block.settings.pos_top }}%;
-                left: {{ block.settings.pos_left }}%;
+                --pv-top: {{ block.settings.pos_top }}%;
+                --pv-left: {{ block.settings.pos_left }}%;
                 color: {{ section.settings.spark_color }};
               "
               {{ block.shopify_attributes }}

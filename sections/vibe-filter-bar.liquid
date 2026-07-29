@@ -1,0 +1,256 @@
+{{ 'posterverse.css' | asset_url | stylesheet_tag }}
+{{ 'section-vibe-filter-bar.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Posterverse vibe filter bar. A scroll-snapping chip rail for filtered
+  browsing — on mobile it sticks to the top so filters stay in reach
+  instead of being buried behind a drawer.
+
+  A chip can point at either a collection or a product tag. The active
+  chip is detected from the current collection handle or the active tag,
+  so it stays correct on a hard page load.
+{%- endcomment -%}
+
+{%- liquid
+  assign current_handle = ''
+  if collection != blank
+    assign current_handle = collection.handle
+  endif
+
+  # Tag pages expose current_tags; join once so chips can test cheaply.
+  assign active_tags = ''
+  if current_tags
+    assign active_tags = current_tags | join: ','  | downcase
+  endif
+
+  assign has_active_tag = false
+  if active_tags != ''
+    assign has_active_tag = true
+  endif
+-%}
+
+<section
+  class="pv-filter{% if section.settings.sticky %} pv-filter--sticky{% endif %}"
+  style="--pv-filter-bg: {{ section.settings.background }};"
+>
+  <div class="page-width pv-filter__inner">
+    {%- if section.settings.label != blank -%}
+      <span class="pv-filter__label">{{ section.settings.label | escape }}</span>
+    {%- endif -%}
+
+    <nav class="pv-filter__rail" aria-label="{{ section.settings.label | default: 'Filter by vibe' | escape }}">
+      {%- if section.settings.show_all -%}
+        {%- liquid
+          assign all_active = false
+          if current_handle == 'all' and has_active_tag == false
+            assign all_active = true
+          endif
+        -%}
+        <a
+          class="pv-chip"
+          href="{{ routes.all_products_collection_url }}"
+          {% if all_active %}aria-current="true"{% endif %}
+          style="--pv-g1: {{ section.settings.all_gradient_from }}; --pv-g2: {{ section.settings.all_gradient_to }};"
+        >
+          <span class="pv-chip__emoji" aria-hidden="true">✦</span>
+          {{ section.settings.all_label | default: 'All' | escape }}
+        </a>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign chip_collection = block.settings.collection
+          assign chip_tag = block.settings.tag | downcase
+
+          assign chip_label = block.settings.title
+          if chip_label == blank and chip_collection != blank
+            assign chip_label = chip_collection.title
+          endif
+          if chip_label == blank
+            assign chip_label = block.settings.tag
+          endif
+
+          # Prefer an explicit link, then a collection, then a tag-filtered URL
+          assign chip_url = '#'
+          if block.settings.link != blank
+            assign chip_url = block.settings.link
+          elsif chip_collection != blank
+            assign chip_url = chip_collection.url
+          elsif chip_tag != blank
+            assign chip_url = routes.all_products_collection_url | append: '/' | append: chip_tag
+          endif
+
+          assign chip_count = 0
+          if chip_collection != blank
+            assign chip_count = chip_collection.all_products_count
+          endif
+
+          assign is_active = false
+          if chip_collection != blank and chip_collection.handle == current_handle and has_active_tag == false
+            assign is_active = true
+          elsif chip_tag != blank and has_active_tag and active_tags contains chip_tag
+            assign is_active = true
+          endif
+        -%}
+
+        <a
+          class="pv-chip"
+          href="{{ chip_url }}"
+          {% if is_active %}aria-current="true"{% endif %}
+          style="--pv-g1: {{ block.settings.gradient_from }}; --pv-g2: {{ block.settings.gradient_to }};"
+          {{ block.shopify_attributes }}
+        >
+          {%- if block.settings.emoji != blank -%}
+            <span class="pv-chip__emoji" aria-hidden="true">{{ block.settings.emoji }}</span>
+          {%- endif -%}
+          {{ chip_label | escape }}
+          {%- if section.settings.show_counts and chip_count > 0 -%}
+            <span class="pv-chip__count">{{ chip_count }}</span>
+          {%- endif -%}
+        </a>
+      {%- endfor -%}
+    </nav>
+
+    {%- if section.settings.sticky == false -%}
+      <span class="pv-filter__fade" aria-hidden="true"></span>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vibe filter bar",
+  "tag": "section",
+  "class": "pv-filter-section",
+  "max_blocks": 24,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "A scrollable chip rail for filtered browsing. Point each chip at a collection, or at a product tag to filter without creating collections."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Rail label",
+      "default": "Shop by vibe"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Stick to top when scrolling",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counts",
+      "label": "Show product counts",
+      "info": "Only shown for chips linked to a collection.",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background",
+      "default": "#100C18"
+    },
+    {
+      "type": "header",
+      "content": "\"All\" chip"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_all",
+      "label": "Show an \"All\" chip first",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "all_label",
+      "label": "\"All\" chip label",
+      "default": "All"
+    },
+    {
+      "type": "color",
+      "id": "all_gradient_from",
+      "label": "\"All\" gradient start",
+      "default": "#FF5C1F"
+    },
+    {
+      "type": "color",
+      "id": "all_gradient_to",
+      "label": "\"All\" gradient end",
+      "default": "#E44A10"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "chip",
+      "name": "Vibe chip",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Links the chip and enables its product count."
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Product tag",
+          "info": "Used when no collection is set. Filters all products by this tag."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Chip label",
+          "info": "Leave empty to use the collection title or tag."
+        },
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom link",
+          "info": "Overrides both the collection and tag link."
+        },
+        {
+          "type": "color",
+          "id": "gradient_from",
+          "label": "Active gradient start",
+          "default": "#6C3BF4"
+        },
+        {
+          "type": "color",
+          "id": "gradient_to",
+          "label": "Active gradient end",
+          "default": "#38187F"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vibe filter bar",
+      "blocks": [
+        { "type": "chip", "settings": { "title": "Humor", "tag": "humor", "emoji": "😂", "gradient_from": "#C99408", "gradient_to": "#8A6603" } },
+        { "type": "chip", "settings": { "title": "Hustle", "tag": "hustle", "emoji": "💪", "gradient_from": "#0E8A4C", "gradient_to": "#075E32" } },
+        { "type": "chip", "settings": { "title": "Desi", "tag": "desi", "emoji": "🪷", "gradient_from": "#D14E0E", "gradient_to": "#8F3204" } },
+        { "type": "chip", "settings": { "title": "Cars & Bikes", "tag": "cars", "emoji": "🏎️", "gradient_from": "#C22525", "gradient_to": "#7E1414" } },
+        { "type": "chip", "settings": { "title": "Gaming", "tag": "gaming", "emoji": "🎮", "gradient_from": "#0E7C8A", "gradient_to": "#07515C" } },
+        { "type": "chip", "settings": { "title": "Tech & Code", "tag": "tech", "emoji": "💻", "gradient_from": "#1F52B5", "gradient_to": "#123274" } },
+        { "type": "chip", "settings": { "title": "Music", "tag": "music", "emoji": "🎸", "gradient_from": "#C22566", "gradient_to": "#7E1440" } },
+        { "type": "chip", "settings": { "title": "Love", "tag": "love", "emoji": "❤️", "gradient_from": "#C2254B", "gradient_to": "#7E142E" } },
+        { "type": "chip", "settings": { "title": "Space", "tag": "space", "emoji": "🚀", "gradient_from": "#5B32C7", "gradient_to": "#38187F" } },
+        { "type": "chip", "settings": { "title": "Food", "tag": "food", "emoji": "🍕", "gradient_from": "#C97808", "gradient_to": "#8A5203" } },
+        { "type": "chip", "settings": { "title": "Warning Signs", "tag": "warning", "emoji": "⚠️", "gradient_from": "#B8860B", "gradient_to": "#7A5807" } },
+        { "type": "chip", "settings": { "title": "Animals", "tag": "animals", "emoji": "🐾", "gradient_from": "#B45309", "gradient_to": "#7C3A05" } },
+        { "type": "chip", "settings": { "title": "Abstract", "tag": "abstract", "emoji": "🎨", "gradient_from": "#7C3AED", "gradient_to": "#4C1D95" } },
+        { "type": "chip", "settings": { "title": "Mystery", "tag": "mystery", "emoji": "🎁", "gradient_from": "#334155", "gradient_to": "#0F172A" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

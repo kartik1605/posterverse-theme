@@ -132,10 +132,31 @@
     counters.forEach(function (el) { observer.observe(el); });
   }
 
+  /* ---------------- filter rail ---------------- */
+  // The active chip can sit off-screen on a narrow rail, which makes it look
+  // like no filter is applied. Bring it into view without scrolling the page.
+  function initFilterRail(scope) {
+    var rails = (scope || document).querySelectorAll('.pv-filter__rail');
+
+    rails.forEach(function (rail) {
+      if (rail.dataset.pvRailReady === 'true') return;
+      rail.dataset.pvRailReady = 'true';
+
+      var active = rail.querySelector('[aria-current="true"]');
+      if (!active) return;
+
+      // Positioned instantly rather than animated: this is establishing the
+      // initial state, and a scroll animation on load reads as jank.
+      var target = active.offsetLeft - (rail.clientWidth - active.offsetWidth) / 2;
+      rail.scrollLeft = Math.max(0, target);
+    });
+  }
+
   function initAll(scope) {
     initParallax(scope);
     initReveal(scope);
     initCounters(scope);
+    initFilterRail(scope);
   }
 
   if (document.readyState === 'loading') {

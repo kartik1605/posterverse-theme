@@ -10,3 +10,7 @@ Thumbs.db
 .shopify
 node_modules
 *.zip
+# Secrets — an Admin API token grants full store access. Never commit one.
+.env
+.env.*
+!.env.example

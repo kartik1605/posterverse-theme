@@ -116,7 +116,12 @@
 
 .pv-sticker {
   position: absolute;
+  top: var(--pv-top, 10%);
+  left: var(--pv-left, 10%);
   width: var(--pv-w, 160px);
+  /* The width/height attributes on the img are layout-shift hints; without
+     this they also force the rendered height and squash the artwork. */
+  height: auto;
   filter: drop-shadow(0 14px 22px rgba(0, 0, 0, .45));
   /* --pv-px/--pv-py are written by posterverse.js on mouse move */
   transform: translate(var(--pv-px, 0px), var(--pv-py, 0px)) rotate(var(--pv-r, 0deg));
@@ -139,6 +144,8 @@
 
 .pv-spark {
   position: absolute;
+  top: var(--pv-top, 8%);
+  left: var(--pv-left, 12%);
   color: var(--pv-yellow);
   font-size: var(--pv-s, 1.4rem);
   pointer-events: none;
@@ -150,15 +157,101 @@
   50% { opacity: 1; transform: scale(1.15) rotate(45deg); }
 }
 
-/* ---------- responsive ---------- */
+/* ---------- responsive ----------
+   Desktop  : scattered field, cursor parallax
+   Tablet   : same field, stacked under the copy, sizes dialled back
+   Mobile   : the scatter would overlap into mush, so the stickers
+              become a swipeable snap rail instead                       */
+
+/* --- tablet (750-989px) --- */
 @media screen and (max-width: 989px) {
-  .pv-hero__inner { grid-template-columns: 1fr; gap: 2rem; }
-  .pv-hero__field { height: 340px; }
+  .pv-hero__inner {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+  }
+  .pv-hero__heading { font-size: clamp(2.4rem, 7vw, 3.6rem); }
+  .pv-hero__text { max-width: 58ch; }
+  .pv-hero__field {
+    height: 400px;
+    max-width: 620px;
+    margin-inline: auto;
+    width: 100%;
+  }
+  /* Field is narrower here, so shrink stickers to keep the gaps readable */
+  .pv-sticker { width: calc(var(--pv-w, 160px) * .82); }
+  .pv-hero__orbits { inset: -8% -10%; width: 120%; height: 116%; }
 }
+
+/* --- mobile (<=749px) --- */
 @media screen and (max-width: 749px) {
-  .pv-hero__field { height: 290px; }
-  .pv-sticker { width: calc(var(--pv-w, 160px) * .6); }
-  .pv-hero__stats { gap: 1.4rem; }
+  .pv-hero__inner { gap: 1.75rem; }
+  .pv-hero__heading { font-size: clamp(2.1rem, 10vw, 3rem); }
+  .pv-hero__heading em,
+  .pv-hero__heading .pv-stroke { -webkit-text-stroke-width: 1.5px; }
+  .pv-hero__text { font-size: 1.02rem; margin-bottom: 1.75rem; }
+  .pv-hero__badge { font-size: .78rem; padding: .4rem .9rem; margin-bottom: 1.2rem; }
+
+  /* Full-bleed buttons so they are comfortable thumb targets */
+  .pv-hero__cta { gap: .7rem; }
+  .pv-hero__cta .pv-btn {
+    flex: 1 1 100%;
+    justify-content: center;
+    padding: .9rem 1.4rem;
+    box-shadow: var(--pv-shadow-pop-sm);
+  }
+  .pv-hero__cta .pv-btn--primary:hover { box-shadow: var(--pv-shadow-pop-sm); transform: none; }
+
+  /* Stats become an even 3-up row rather than wrapping awkwardly */
+  .pv-hero__stats {
+    gap: .75rem;
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .pv-hero__stat { text-align: center; }
+  .pv-hero__stat b { font-size: 1.2rem; }
+  .pv-hero__stat span { font-size: .72rem; line-height: 1.3; display: block; }
+
+  /* Sticker rail: horizontal snap scroll. Stays within page-width so it
+     lines up with the copy above — negative margins do not reliably
+     expand a grid item past its track, so no full-bleed hack here. */
+  .pv-hero__field {
+    height: auto;
+    max-width: none;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 1.25rem 0 1.5rem;
+  }
+  .pv-hero__field::-webkit-scrollbar { display: none; }
+
+  .pv-sticker {
+    position: static;
+    flex: 0 0 auto;
+    width: 132px;
+    scroll-snap-align: center;
+    animation: none;
+    /* Parallax vars are unset here; keep only the design rotation */
+    transform: rotate(var(--pv-r, 0deg));
+  }
+  .pv-sticker:active { transform: rotate(0deg) scale(1.06); }
+
+  /* Decorative-only elements: drop them rather than crowd the rail */
+  .pv-hero__orbits,
+  .pv-spark { display: none; }
+}
+
+/* Very narrow phones */
+@media screen and (max-width: 400px) {
+  .pv-hero__stats { grid-template-columns: repeat(3, 1fr); gap: .4rem; }
+  .pv-hero__stat b { font-size: 1.05rem; }
+  .pv-hero__stat span { font-size: .66rem; }
+  .pv-sticker { width: 116px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

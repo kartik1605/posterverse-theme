@@ -1,0 +1,140 @@
+/* ============================================================
+   POSTERVERSE — Vibe filter bar
+   A horizontally scrollable chip row for filtered browsing.
+   Sticks to the top on mobile so filters are always in reach.
+   ============================================================ */
+
+.pv-filter {
+  position: relative;
+  z-index: 3;
+  background: var(--pv-filter-bg, #100C18);
+  border-bottom: 1px solid rgba(250, 244, 235, .14);
+}
+.pv-filter--sticky {
+  position: sticky;
+  top: 0;
+  background: color-mix(in srgb, var(--pv-filter-bg, #100C18) 88%, transparent);
+  backdrop-filter: blur(14px) saturate(1.4);
+}
+/* color-mix is widely supported but fall back cleanly where it is not */
+@supports not (background: color-mix(in srgb, red 50%, blue)) {
+  .pv-filter--sticky { background: var(--pv-filter-bg, #100C18); }
+}
+
+.pv-filter__inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pv-filter__label {
+  flex: 0 0 auto;
+  font-family: var(--pv-font-body);
+  font-weight: 700;
+  font-size: .78rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--pv-yellow);
+}
+
+/* ---------- the scrolling rail ---------- */
+.pv-filter__rail {
+  display: flex;
+  gap: .55rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: .9rem 0;
+  /* room so focus rings and shadows are not clipped by overflow */
+  margin-block: -.15rem;
+}
+.pv-filter__rail::-webkit-scrollbar { display: none; }
+
+.pv-chip {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .5rem 1.05rem;
+  border-radius: 999px;
+  border: 2px solid rgba(250, 244, 235, .22);
+  background: rgba(250, 244, 235, .06);
+  color: var(--pv-cream);
+  font-family: var(--pv-font-body);
+  font-weight: 700;
+  font-size: .85rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: transform .25s var(--pv-ease-spring), background .25s, border-color .25s, color .25s;
+}
+.pv-chip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(250, 244, 235, .5);
+  color: var(--pv-cream);
+}
+.pv-chip:active { transform: scale(.96); }
+.pv-chip__emoji { font-size: 1rem; line-height: 1; }
+.pv-chip__count {
+  font-size: .72rem;
+  font-weight: 600;
+  opacity: .65;
+}
+
+.pv-chip[aria-current='true'],
+.pv-chip.pv-chip--active {
+  background: linear-gradient(140deg, var(--pv-g1, var(--pv-orange)), var(--pv-g2, var(--pv-orange-dark)));
+  border-color: rgba(255, 255, 255, .55);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .38);
+}
+.pv-chip[aria-current='true'] .pv-chip__count { opacity: .9; }
+
+/* Fade hint that there is more to scroll */
+.pv-filter__fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3rem;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(to right, transparent, var(--pv-filter-bg, #100C18));
+}
+
+/* ---------- tablet ---------- */
+@media screen and (max-width: 989px) {
+  .pv-filter__label { font-size: .72rem; letter-spacing: .12em; }
+}
+
+/* ---------- mobile ---------- */
+@media screen and (max-width: 749px) {
+  .pv-filter__inner {
+    display: block;
+  }
+  /* Label sits above the rail so chips get the full screen width */
+  .pv-filter__label {
+    display: block;
+    padding-top: .85rem;
+    margin-bottom: -.2rem;
+  }
+  .pv-filter__rail {
+    /* bleed to both screen edges, matching Dawn's 1.5rem page-width padding */
+    margin-inline: -1.5rem;
+    padding: .8rem 1.5rem;
+    scroll-padding-inline: 1.5rem;
+  }
+  .pv-chip {
+    padding: .55rem 1rem;
+    font-size: .82rem;
+  }
+  .pv-chip:hover { transform: none; }
+  .pv-filter__fade { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-chip { transition: none; }
+  .pv-chip:hover, .pv-chip:active { transform: none; }
+  .pv-filter__rail { scroll-behavior: auto; }
+}

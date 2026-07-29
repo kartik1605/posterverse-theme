@@ -108,9 +108,39 @@
   opacity: .8;
 }
 
+/* --- tablet --- */
+@media screen and (max-width: 989px) {
+  .pv-vibe__grid { grid-template-columns: repeat(auto-fill, minmax(142px, 1fr)); gap: .9rem; }
+  .pv-vibe__head { margin-bottom: 2.25rem; }
+  .pv-vibe__sub { max-width: none; }
+}
+
+/* --- mobile --- */
 @media screen and (max-width: 749px) {
-  .pv-vibe__grid { grid-template-columns: repeat(2, 1fr); gap: .8rem; }
-  .pv-vibe__head { margin-bottom: 2rem; }
+  .pv-vibe__grid { grid-template-columns: repeat(2, 1fr); gap: .7rem; }
+  .pv-vibe__head { margin-bottom: 1.75rem; gap: .75rem; }
+  .pv-vibe__title { font-size: clamp(1.6rem, 7vw, 2.1rem); }
+  .pv-vibe__kicker { font-size: .74rem; margin-bottom: .5rem; }
+
+  .pv-vibe__tile {
+    padding: 1.15rem .7rem 1rem;
+    border-radius: 16px;
+    gap: .25rem;
+  }
+  .pv-vibe__icon { font-size: 1.85rem; }
+  .pv-vibe__icon img { width: 1.85rem; height: 1.85rem; }
+  .pv-vibe__name { font-size: .78rem; line-height: 1.25; }
+  .pv-vibe__count { font-size: .68rem; }
+
+  /* Hover lift is meaningless on touch; use a press state instead */
+  .pv-vibe__tile:hover { transform: none; box-shadow: none; }
+  .pv-vibe__tile:active { transform: scale(.97); }
+}
+
+@media screen and (max-width: 400px) {
+  .pv-vibe__tile { padding: 1rem .5rem .9rem; }
+  .pv-vibe__icon { font-size: 1.6rem; }
+  .pv-vibe__name { font-size: .72rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
