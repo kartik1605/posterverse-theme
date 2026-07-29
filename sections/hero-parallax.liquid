@@ -1,0 +1,463 @@
+{{ 'posterverse.css' | asset_url | stylesheet_tag }}
+{{ 'section-hero-parallax.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Posterverse hero: dark gradient stage with die-cut stickers that follow the
+  cursor at layered depths. Stickers, sparkles and stats are all blocks, so
+  the whole composition is editable from the theme editor.
+{%- endcomment -%}
+
+{%- liquid
+  assign grad_from = section.settings.gradient_from
+  assign grad_to = section.settings.gradient_to
+-%}
+
+<section
+  class="pv-hero"
+  data-pv-parallax
+  style="
+    --pv-grad-from: {{ grad_from }};
+    --pv-grad-to: {{ grad_to }};
+    --pv-glow-1: {{ section.settings.glow_1 }};
+    --pv-glow-2: {{ section.settings.glow_2 }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="pv-hero__bg" aria-hidden="true"></div>
+
+  <div class="page-width pv-hero__inner">
+    <div class="pv-hero__copy pv-reveal">
+      {%- if section.settings.badge_text != blank -%}
+        <span class="pv-hero__badge">
+          <span class="pv-hero__badge-dot" aria-hidden="true"></span>
+          {{ section.settings.badge_text | escape }}
+        </span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="pv-hero__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <div class="pv-hero__text">{{ section.settings.text }}</div>
+      {%- endif -%}
+
+      <div class="pv-hero__cta">
+        {%- if section.settings.button_label != blank -%}
+          <a
+            class="pv-btn pv-btn--primary"
+            {% if section.settings.button_link != blank %}href="{{ section.settings.button_link }}"{% else %}href="#" aria-disabled="true"{% endif %}
+          >
+            {{ section.settings.button_label | escape }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.button_label_2 != blank -%}
+          <a
+            class="pv-btn pv-btn--ghost"
+            {% if section.settings.button_link_2 != blank %}href="{{ section.settings.button_link_2 }}"{% else %}href="#" aria-disabled="true"{% endif %}
+          >
+            {{ section.settings.button_label_2 | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- assign stat_blocks = section.blocks | where: 'type', 'stat' -%}
+      {%- if stat_blocks.size > 0 -%}
+        <div class="pv-hero__stats">
+          {%- for block in stat_blocks -%}
+            <div class="pv-hero__stat" {{ block.shopify_attributes }}>
+              <b
+                {% if block.settings.animate %}
+                  data-pv-count="{{ block.settings.value }}"
+                  data-pv-suffix="{{ block.settings.suffix }}"
+                {% endif %}
+              >
+                {%- if block.settings.animate -%}
+                  0{{ block.settings.suffix }}
+                {%- else -%}
+                  {{ block.settings.value }}{{ block.settings.suffix }}
+                {%- endif -%}
+              </b>
+              <span>{{ block.settings.label | escape }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="pv-hero__field" aria-hidden="true">
+      {%- if section.settings.show_orbits -%}
+        <svg class="pv-hero__orbits" viewBox="0 0 700 600" fill="none" focusable="false">
+          <ellipse cx="350" cy="300" rx="330" ry="200" stroke="rgba(250,244,235,.25)" stroke-width="1.5" stroke-dasharray="3 8" />
+          <ellipse cx="350" cy="300" rx="240" ry="130" stroke="rgba(255,194,41,.3)" stroke-width="1.5" transform="rotate(-14 350 300)" />
+          <circle cx="80" cy="140" r="4" fill="{{ section.settings.spark_color }}" />
+          <circle cx="620" cy="430" r="5" fill="{{ section.settings.glow_2 }}" />
+        </svg>
+      {%- endif -%}
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- when 'sticker' -%}
+            {%- liquid
+              # Built-in artwork is square (1024x1024); uploads report their own
+              # dimensions. Either way width/height ship to avoid layout shift.
+              assign sticker_url = ''
+              assign sticker_w = 1024
+              assign sticker_h = 1024
+              if block.settings.image != blank
+                assign sticker_url = block.settings.image | image_url: width: 500
+                assign sticker_w = block.settings.image.width
+                assign sticker_h = block.settings.image.height
+              elsif block.settings.fallback_asset != blank
+                assign sticker_url = block.settings.fallback_asset | asset_url
+              endif
+            -%}
+            {%- if sticker_url != '' -%}
+              <img
+                class="pv-sticker"
+                src="{{ sticker_url }}"
+                alt=""
+                role="presentation"
+                loading="{% if forloop.index <= 3 %}eager{% else %}lazy{% endif %}"
+                width="{{ sticker_w }}"
+                height="{{ sticker_h }}"
+                data-pv-depth="{{ block.settings.depth }}"
+                style="
+                  --pv-w: {{ block.settings.size }}px;
+                  --pv-r: {{ block.settings.rotation }}deg;
+                  --pv-delay: {{ block.settings.delay }}s;
+                  top: {{ block.settings.pos_top }}%;
+                  left: {{ block.settings.pos_left }}%;
+                "
+                {{ block.shopify_attributes }}
+              >
+            {%- endif -%}
+
+          {%- when 'sparkle' -%}
+            <span
+              class="pv-spark"
+              style="
+                --pv-s: {{ block.settings.size }}rem;
+                --pv-delay: {{ block.settings.delay }}s;
+                top: {{ block.settings.pos_top }}%;
+                left: {{ block.settings.pos_left }}%;
+                color: {{ section.settings.spark_color }};
+              "
+              {{ block.shopify_attributes }}
+            >{{ block.settings.character | default: '✦' }}</span>
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero parallax",
+  "tag": "section",
+  "class": "pv-hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "50,000+ orders shipped across India"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Use italic for an outlined word and bold for a gradient-filled word.",
+      "default": "<p>Step into the <em>Poster</em><strong>verse.</strong></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Body text",
+      "default": "<p>Waterproof vinyl stickers, wall-changing posters, cards that say it better and labels that make your brand unforgettable — all original, all printed loud.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Primary button label",
+      "default": "Shop the drop"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Secondary button label",
+      "default": "Browse by vibe"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Colours"
+    },
+    {
+      "type": "color",
+      "id": "gradient_from",
+      "label": "Background gradient start",
+      "default": "#221338"
+    },
+    {
+      "type": "color",
+      "id": "gradient_to",
+      "label": "Background gradient end",
+      "default": "#17130E"
+    },
+    {
+      "type": "color",
+      "id": "glow_1",
+      "label": "Top-right glow",
+      "default": "#6C3BF4"
+    },
+    {
+      "type": "color",
+      "id": "glow_2",
+      "label": "Bottom-left glow",
+      "default": "#FF5C1F"
+    },
+    {
+      "type": "color",
+      "id": "spark_color",
+      "label": "Sparkle colour",
+      "default": "#FFC229"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_orbits",
+      "label": "Show orbit rings",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 104
+    }
+  ],
+  "blocks": [
+    {
+      "type": "sticker",
+      "name": "Sticker",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Sticker image",
+          "info": "Transparent PNG or SVG works best. Leave empty to use the built-in artwork below."
+        },
+        {
+          "type": "text",
+          "id": "fallback_asset",
+          "label": "Built-in artwork filename",
+          "info": "Used only when no image is uploaded. Example: st-chai-first-t.svg",
+          "default": "st-chai-first-t.svg"
+        },
+        {
+          "type": "range",
+          "id": "size",
+          "label": "Size",
+          "min": 60,
+          "max": 320,
+          "step": 5,
+          "unit": "px",
+          "default": 170
+        },
+        {
+          "type": "range",
+          "id": "depth",
+          "label": "Parallax depth",
+          "info": "Higher values move further with the cursor.",
+          "min": 0.2,
+          "max": 2,
+          "step": 0.1,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "rotation",
+          "label": "Rotation",
+          "min": -25,
+          "max": 25,
+          "step": 1,
+          "unit": "deg",
+          "default": -8
+        },
+        {
+          "type": "range",
+          "id": "pos_top",
+          "label": "Position from top",
+          "min": -10,
+          "max": 90,
+          "step": 1,
+          "unit": "%",
+          "default": 10
+        },
+        {
+          "type": "range",
+          "id": "pos_left",
+          "label": "Position from left",
+          "min": -10,
+          "max": 90,
+          "step": 1,
+          "unit": "%",
+          "default": 10
+        },
+        {
+          "type": "range",
+          "id": "delay",
+          "label": "Float delay",
+          "min": 0,
+          "max": 3,
+          "step": 0.1,
+          "unit": "s",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "sparkle",
+      "name": "Sparkle",
+      "settings": [
+        {
+          "type": "text",
+          "id": "character",
+          "label": "Character",
+          "default": "✦"
+        },
+        {
+          "type": "range",
+          "id": "size",
+          "label": "Size",
+          "min": 0.8,
+          "max": 4,
+          "step": 0.1,
+          "unit": "rem",
+          "default": 1.5
+        },
+        {
+          "type": "range",
+          "id": "pos_top",
+          "label": "Position from top",
+          "min": 0,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 8
+        },
+        {
+          "type": "range",
+          "id": "pos_left",
+          "label": "Position from left",
+          "min": 0,
+          "max": 95,
+          "step": 1,
+          "unit": "%",
+          "default": 12
+        },
+        {
+          "type": "range",
+          "id": "delay",
+          "label": "Twinkle delay",
+          "min": 0,
+          "max": 3,
+          "step": 0.1,
+          "unit": "s",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "info": "Numbers only if you want the count-up animation.",
+          "default": "50000"
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix",
+          "default": "+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Orders shipped"
+        },
+        {
+          "type": "checkbox",
+          "id": "animate",
+          "label": "Count up on scroll",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero parallax",
+      "blocks": [
+        { "type": "sticker", "settings": { "fallback_asset": "st-chai-first-t.svg", "size": 190, "depth": 1.5, "rotation": -9, "pos_top": 0, "pos_left": 4, "delay": 0.2 } },
+        { "type": "sticker", "settings": { "fallback_asset": "st-no-excuses-t.svg", "size": 170, "depth": 0.8, "rotation": 12, "pos_top": 0, "pos_left": 42, "delay": 1.1 } },
+        { "type": "sticker", "settings": { "fallback_asset": "st-self-love-t.svg", "size": 165, "depth": 1.2, "rotation": -14, "pos_top": 8, "pos_left": 70, "delay": 0.6 } },
+        { "type": "sticker", "settings": { "fallback_asset": "st-respawn-t.svg", "size": 200, "depth": 0.6, "rotation": 7, "pos_top": 36, "pos_left": 20, "delay": 1.7 } },
+        { "type": "sticker", "settings": { "fallback_asset": "st-404-t.svg", "size": 185, "depth": 1.8, "rotation": -6, "pos_top": 38, "pos_left": 62, "delay": 0.3 } },
+        { "type": "sticker", "settings": { "fallback_asset": "st-pizza-t.svg", "size": 160, "depth": 1, "rotation": 14, "pos_top": 66, "pos_left": 2, "delay": 2.1 } },
+        { "type": "sticker", "settings": { "fallback_asset": "st-one-more-game-t.svg", "size": 150, "depth": 1.4, "rotation": -11, "pos_top": 70, "pos_left": 40, "delay": 0.8 } },
+        { "type": "sticker", "settings": { "fallback_asset": "st-cat-person-t.svg", "size": 155, "depth": 0.7, "rotation": 9, "pos_top": 64, "pos_left": 72, "delay": 1.4 } },
+        { "type": "sparkle", "settings": { "size": 1.7, "pos_top": 4, "pos_left": 12, "delay": 0.4 } },
+        { "type": "sparkle", "settings": { "size": 1.3, "pos_top": 60, "pos_left": 2, "delay": 1.6 } },
+        { "type": "sparkle", "settings": { "size": 1.2, "pos_top": 12, "pos_left": 88, "delay": 2.4 } },
+        { "type": "stat", "settings": { "value": "50000", "suffix": "+", "label": "Orders shipped" } },
+        { "type": "stat", "settings": { "value": "4.9", "suffix": "★", "label": "Average rating" } },
+        { "type": "stat", "settings": { "value": "33", "suffix": "+", "label": "Original designs" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

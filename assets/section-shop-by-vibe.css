@@ -1,0 +1,119 @@
+/* ============================================================
+   POSTERVERSE — Shop by Vibe section
+   ============================================================ */
+
+.pv-vibe {
+  position: relative;
+  color: var(--pv-cream);
+  background:
+    radial-gradient(46rem 26rem at 92% 0%, rgba(108, 59, 244, .25), transparent 60%),
+    var(--pv-vibe-bg, #100C18);
+  border-block: 3px solid var(--pv-ink);
+}
+
+.pv-vibe__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+.pv-vibe__kicker {
+  display: block;
+  font-family: var(--pv-font-body);
+  font-weight: 700;
+  font-size: .82rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--pv-yellow);
+  margin-bottom: .8rem;
+}
+.pv-vibe__title {
+  font-family: var(--pv-font-display);
+  font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+  font-weight: 800;
+  line-height: 1.12;
+  margin: 0;
+  color: var(--pv-cream);
+}
+.pv-vibe__sub {
+  margin: 0;
+  color: rgba(250, 244, 235, .6);
+  max-width: 40ch;
+}
+
+.pv-vibe__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+  gap: 1.1rem;
+}
+
+.pv-vibe__tile {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .35rem;
+  padding: 1.5rem 1.1rem 1.3rem;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, .14);
+  border-radius: 20px;
+  background: linear-gradient(150deg, var(--pv-g1), var(--pv-g2));
+  transition: transform .3s var(--pv-ease-spring), box-shadow .3s, border-color .3s;
+}
+.pv-vibe__tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(12rem 6rem at 50% -20%, rgba(255, 255, 255, .28), transparent 70%);
+  opacity: 0;
+  transition: opacity .3s;
+}
+.pv-vibe__tile:hover {
+  transform: translateY(-7px) rotate(-1deg);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .45);
+  border-color: rgba(255, 255, 255, .5);
+  color: #fff;
+}
+.pv-vibe__tile:hover::after { opacity: 1; }
+
+.pv-vibe__icon {
+  position: relative;
+  z-index: 1;
+  font-size: 2.3rem;
+  line-height: 1;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .35));
+  transition: transform .3s var(--pv-ease-spring);
+}
+.pv-vibe__icon img { width: 2.3rem; height: 2.3rem; object-fit: contain; }
+.pv-vibe__tile:hover .pv-vibe__icon { transform: scale(1.25) rotate(-8deg); }
+
+.pv-vibe__name {
+  position: relative;
+  z-index: 1;
+  font-family: var(--pv-font-display);
+  font-size: .88rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.pv-vibe__count {
+  position: relative;
+  z-index: 1;
+  font-size: .76rem;
+  opacity: .8;
+}
+
+@media screen and (max-width: 749px) {
+  .pv-vibe__grid { grid-template-columns: repeat(2, 1fr); gap: .8rem; }
+  .pv-vibe__head { margin-bottom: 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-vibe__tile, .pv-vibe__icon { transition: none; }
+  .pv-vibe__tile:hover { transform: none; }
+}

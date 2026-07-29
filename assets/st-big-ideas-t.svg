@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#17130E" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  
+  <g filter="url(#sh)">
+  <g transform="translate(512 512) rotate(2)">
+    <rect x="-350" y="-350" width="700" height="700" rx="60" transform="rotate(45)" fill="#FFF"/>
+    <rect x="-320" y="-320" width="640" height="640" rx="44" transform="rotate(45)" fill="#FFC229" stroke="#17130E" stroke-width="14"/>
+    <g transform="translate(0 -95)">
+      <circle r="60" fill="none" stroke="#17130E" stroke-width="16"/>
+      <path d="M-20 55 h40 v30 a20 20 0 0 1 -40 0 Z" fill="#17130E"/>
+      <g stroke="#17130E" stroke-width="14" stroke-linecap="round">
+        <line x1="0" y1="-95" x2="0" y2="-130"/>
+        <line x1="70" y1="-70" x2="95" y2="-95"/>
+        <line x1="-70" y1="-70" x2="-95" y2="-95"/>
+      </g>
+    </g>
+    <text x="0" y="60" font-family="Arial Black, Arial, sans-serif" font-size="74" font-weight="900" fill="#17130E" text-anchor="middle" letter-spacing="0">CAUTION</text>
+    <text x="0" y="130" font-family="Arial Black, Arial, sans-serif" font-size="54" font-weight="900" fill="#17130E" text-anchor="middle" letter-spacing="0">BIG IDEAS</text>
+    <text x="0" y="190" font-family="Arial Black, Arial, sans-serif" font-size="54" font-weight="900" fill="#17130E" text-anchor="middle" letter-spacing="0">AT WORK</text>
+  </g></g>
+</svg>

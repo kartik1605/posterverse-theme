@@ -1,0 +1,233 @@
+{{ 'posterverse.css' | asset_url | stylesheet_tag }}
+{{ 'section-shop-by-vibe.css' | asset_url | stylesheet_tag }}
+
+{%- comment -%}
+  Posterverse "Shop by Vibe": gradient tiles, one per collection. Each tile
+  reads its product count from the linked collection, so the numbers stay
+  correct as the catalogue changes.
+{%- endcomment -%}
+
+<section
+  id="shop-by-vibe"
+  class="pv-vibe"
+  style="
+    --pv-vibe-bg: {{ section.settings.background }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="page-width">
+    {%- if section.settings.kicker != blank or section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="pv-vibe__head pv-reveal">
+        <div>
+          {%- if section.settings.kicker != blank -%}
+            <span class="pv-vibe__kicker">{{ section.settings.kicker | escape }}</span>
+          {%- endif -%}
+          {%- if section.settings.title != blank -%}
+            <h2 class="pv-vibe__title">{{ section.settings.title | escape }}</h2>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.subtitle != blank -%}
+          <p class="pv-vibe__sub">{{ section.settings.subtitle | escape }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="pv-vibe__grid pv-stagger">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign vibe_collection = block.settings.collection
+            assign vibe_name = block.settings.title
+            if vibe_name == blank and vibe_collection != blank
+              assign vibe_name = vibe_collection.title
+            endif
+
+            assign vibe_url = '#'
+            if block.settings.link != blank
+              assign vibe_url = block.settings.link
+            elsif vibe_collection != blank
+              assign vibe_url = vibe_collection.url
+            endif
+
+            assign count = 0
+            if vibe_collection != blank
+              assign count = vibe_collection.all_products_count
+            endif
+          -%}
+
+          <a
+            class="pv-vibe__tile"
+            href="{{ vibe_url }}"
+            style="--pv-g1: {{ block.settings.gradient_from }}; --pv-g2: {{ block.settings.gradient_to }};"
+            {{ block.shopify_attributes }}
+          >
+            <span class="pv-vibe__icon" aria-hidden="true">
+              {%- if block.settings.icon_image != blank -%}
+                <img
+                  src="{{ block.settings.icon_image | image_url: width: 120 }}"
+                  alt=""
+                  loading="lazy"
+                  width="120"
+                  height="120"
+                >
+              {%- else -%}
+                {{ block.settings.emoji }}
+              {%- endif -%}
+            </span>
+
+            <span class="pv-vibe__name">{{ vibe_name | escape }}</span>
+
+            {%- if section.settings.show_counts and vibe_collection != blank -%}
+              <span class="pv-vibe__count">
+                {{ count }} {% if count == 1 %}design{% else %}designs{% endif %}
+              </span>
+            {%- elsif block.settings.caption != blank -%}
+              <span class="pv-vibe__count">{{ block.settings.caption | escape }}</span>
+            {%- endif -%}
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <p class="pv-vibe__sub">Add a vibe block to get started.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop by vibe",
+  "tag": "section",
+  "class": "pv-vibe-section",
+  "max_blocks": 24,
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Explore the collection"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Shop by vibe"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Every sticker sorted by the energy it brings. Pick yours."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counts",
+      "label": "Show product count on each tile",
+      "info": "Counts come from the linked collection.",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Section background",
+      "default": "#100C18"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 88
+    }
+  ],
+  "blocks": [
+    {
+      "type": "vibe",
+      "name": "Vibe",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tile label",
+          "info": "Leave empty to use the collection title."
+        },
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji",
+          "default": "✦"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image",
+          "info": "Optional. Replaces the emoji when set."
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "info": "Shown when product counts are turned off."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom link",
+          "info": "Overrides the collection link."
+        },
+        {
+          "type": "color",
+          "id": "gradient_from",
+          "label": "Gradient start",
+          "default": "#C99408"
+        },
+        {
+          "type": "color",
+          "id": "gradient_to",
+          "label": "Gradient end",
+          "default": "#8A6603"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by vibe",
+      "blocks": [
+        { "type": "vibe", "settings": { "title": "Humor", "emoji": "😂", "gradient_from": "#C99408", "gradient_to": "#8A6603" } },
+        { "type": "vibe", "settings": { "title": "Hustle", "emoji": "💪", "gradient_from": "#0E8A4C", "gradient_to": "#075E32" } },
+        { "type": "vibe", "settings": { "title": "Desi", "emoji": "🪷", "gradient_from": "#D14E0E", "gradient_to": "#8F3204" } },
+        { "type": "vibe", "settings": { "title": "Cars & Bikes", "emoji": "🏎️", "gradient_from": "#C22525", "gradient_to": "#7E1414" } },
+        { "type": "vibe", "settings": { "title": "Gaming", "emoji": "🎮", "gradient_from": "#0E7C8A", "gradient_to": "#07515C" } },
+        { "type": "vibe", "settings": { "title": "Tech & Code", "emoji": "💻", "gradient_from": "#1F52B5", "gradient_to": "#123274" } },
+        { "type": "vibe", "settings": { "title": "Music", "emoji": "🎸", "gradient_from": "#C22566", "gradient_to": "#7E1440" } },
+        { "type": "vibe", "settings": { "title": "Love", "emoji": "❤️", "gradient_from": "#C2254B", "gradient_to": "#7E142E" } },
+        { "type": "vibe", "settings": { "title": "Space", "emoji": "🚀", "gradient_from": "#5B32C7", "gradient_to": "#38187F" } },
+        { "type": "vibe", "settings": { "title": "Food", "emoji": "🍕", "gradient_from": "#C97808", "gradient_to": "#8A5203" } },
+        { "type": "vibe", "settings": { "title": "Warning Signs", "emoji": "⚠️", "gradient_from": "#B8860B", "gradient_to": "#7A5807" } },
+        { "type": "vibe", "settings": { "title": "Animals", "emoji": "🐾", "gradient_from": "#B45309", "gradient_to": "#7C3A05" } },
+        { "type": "vibe", "settings": { "title": "Abstract", "emoji": "🎨", "gradient_from": "#7C3AED", "gradient_to": "#4C1D95" } },
+        { "type": "vibe", "settings": { "title": "Mystery", "emoji": "🎁", "gradient_from": "#334155", "gradient_to": "#0F172A" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#17130E" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  
+  <g filter="url(#sh)">
+  <g transform="translate(512 530) rotate(4)">
+    <path d="M0 300 C -320 80 -300 -180 -120 -200 C -40 -208 0 -140 0 -140 C 0 -140 40 -208 120 -200 C 300 -180 320 80 0 300 Z" fill="#FFF" transform="scale(1.12)"/>
+    <path d="M0 300 C -320 80 -300 -180 -120 -200 C -40 -208 0 -140 0 -140 C 0 -140 40 -208 120 -200 C 300 -180 320 80 0 300 Z" fill="#FF3B6B" stroke="#17130E" stroke-width="12"/>
+    <ellipse cx="-120" cy="-90" rx="55" ry="35" fill="#FAF4EB" opacity=".35" transform="rotate(-30 -120 -90)"/>
+    <text x="0" y="-20" font-family="Arial Black, Arial, sans-serif" font-size="74" font-weight="900" fill="#FAF4EB" text-anchor="middle" letter-spacing="0">SELF LOVE</text>
+    <text x="0" y="60" font-family="Arial Black, Arial, sans-serif" font-size="74" font-weight="900" fill="#FFC229" text-anchor="middle" letter-spacing="0">CLUB</text>
+  </g></g>
+</svg>
