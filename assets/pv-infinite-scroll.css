@@ -1,0 +1,74 @@
+/* ============================================================
+   POSTERVERSE — infinite scroll controls
+   ============================================================ */
+
+.pv-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .9rem;
+  padding: 2.5rem 0 1rem;
+}
+
+.pv-more__btn {
+  font-family: var(--pv-font-body, inherit);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1;
+  padding: .95rem 2.4rem;
+  border-radius: 999px;
+  border: 2px solid var(--pv-ink, #17130E);
+  background: var(--pv-ink, #17130E);
+  color: var(--pv-cream, #FAF4EB);
+  cursor: pointer;
+  transition: transform .25s var(--pv-ease-spring, ease), background .25s, box-shadow .25s;
+}
+.pv-more__btn:hover:not(:disabled) {
+  background: var(--pv-orange, #FF5C1F);
+  border-color: var(--pv-orange, #FF5C1F);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(23, 19, 14, .22);
+}
+.pv-more__btn:disabled { cursor: default; opacity: .75; }
+
+/* Spinner sits inside the button so its width does not jump on click */
+.pv-more__btn.is-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: .65rem;
+}
+.pv-more__btn.is-loading::before {
+  content: "";
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  animation: pv-more-spin .7s linear infinite;
+}
+@keyframes pv-more-spin { to { transform: rotate(360deg); } }
+
+.pv-more__status {
+  margin: 0;
+  font-size: .88rem;
+  opacity: .7;
+  min-height: 1.2em;   /* reserve the line so nothing shifts when it fills */
+  text-align: center;
+}
+
+/* Real pagination stays in the DOM as the no-JS and error fallback. It is
+   hidden rather than removed so it can be restored if a fetch fails. */
+.pagination-wrapper.pv-more__fallback {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-more__btn { transition: none; }
+  .pv-more__btn:hover:not(:disabled) { transform: none; }
+  .pv-more__btn.is-loading::before { animation-duration: 2s; }
+}

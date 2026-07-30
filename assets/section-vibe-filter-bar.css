@@ -12,6 +12,7 @@
      of vars is what stops cream chips landing on a white bar. */
   background-color: #100C18;
   background-image: linear-gradient(var(--pv-filter-bg, #100C18), var(--pv-filter-bg, #100C18));
+  border-top: 3px solid var(--pv-orange);
   border-bottom: 1px solid rgba(250, 244, 235, .14);
 }
 /* Deliberately opaque rather than translucent: the bar sits over product
@@ -22,6 +23,7 @@
 }
 
 .pv-filter__inner {
+  position: relative;   /* containing block for the scroll fade */
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -45,7 +47,7 @@
   scroll-snap-type: x proximity;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: .9rem 0;
+  padding: 1.15rem 0;
   /* room so focus rings and shadows are not clipped by overflow */
   margin-block: -.15rem;
 }
@@ -57,7 +59,7 @@
   display: inline-flex;
   align-items: center;
   gap: .4rem;
-  padding: .5rem 1.05rem;
+  padding: .6rem 1.15rem;
   border-radius: 999px;
   border: 2px solid rgba(250, 244, 235, .22);
   background: rgba(250, 244, 235, .06);
@@ -76,7 +78,7 @@
   color: var(--pv-cream);
 }
 .pv-chip:active { transform: scale(.96); }
-.pv-chip__emoji { font-size: 1rem; line-height: 1; }
+.pv-chip__emoji { font-size: 1.1rem; line-height: 1; }
 .pv-chip__count {
   font-size: .72rem;
   font-weight: 600;
@@ -97,11 +99,14 @@
 .pv-filter__fade {
   position: absolute;
   top: 0;
-  right: 0;
-  width: 3rem;
+  right: 1.5rem;
+  width: 4.5rem;
   height: 100%;
   pointer-events: none;
-  background: linear-gradient(to right, transparent, var(--pv-filter-bg, #100C18));
+  z-index: 2;
+  /* Hardcoded rather than var-driven: this is a cosmetic overlay and must
+     match the floor colour even if a colour setting is cleared. */
+  background-image: linear-gradient(to right, rgba(16, 12, 24, 0), #100C18 70%);
 }
 
 /* ---------- tablet ---------- */

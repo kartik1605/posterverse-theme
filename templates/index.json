@@ -101,27 +101,60 @@
         },
         "spark_1": {
           "type": "sparkle",
-          "settings": { "character": "✦", "size": 1.7, "pos_top": 4, "pos_left": 12, "delay": 0.4 }
+          "settings": {
+            "character": "✦",
+            "size": 1.7,
+            "pos_top": 4,
+            "pos_left": 12,
+            "delay": 0.4
+          }
         },
         "spark_2": {
           "type": "sparkle",
-          "settings": { "character": "✦", "size": 1.3, "pos_top": 60, "pos_left": 2, "delay": 1.6 }
+          "settings": {
+            "character": "✦",
+            "size": 1.3,
+            "pos_top": 60,
+            "pos_left": 2,
+            "delay": 1.6
+          }
         },
         "spark_3": {
           "type": "sparkle",
-          "settings": { "character": "✦", "size": 1.2, "pos_top": 12, "pos_left": 88, "delay": 2.4 }
+          "settings": {
+            "character": "✦",
+            "size": 1.2,
+            "pos_top": 12,
+            "pos_left": 88,
+            "delay": 2.4
+          }
         },
         "stat_1": {
           "type": "stat",
-          "settings": { "value": "50000", "suffix": "+", "label": "Orders shipped", "animate": true }
+          "settings": {
+            "value": "50000",
+            "suffix": "+",
+            "label": "Orders shipped",
+            "animate": true
+          }
         },
         "stat_2": {
           "type": "stat",
-          "settings": { "value": "4.9", "suffix": "★", "label": "Average rating", "animate": true }
+          "settings": {
+            "value": "4.9",
+            "suffix": "★",
+            "label": "Average rating",
+            "animate": true
+          }
         },
         "stat_3": {
           "type": "stat",
-          "settings": { "value": "33", "suffix": "+", "label": "Original designs", "animate": true }
+          "settings": {
+            "value": "33",
+            "suffix": "+",
+            "label": "Original designs",
+            "animate": true
+          }
         }
       },
       "block_order": [
@@ -163,59 +196,143 @@
       "blocks": {
         "vibe_humor": {
           "type": "vibe",
-          "settings": { "title": "Humor", "emoji": "😂", "link": "/collections/all/humor", "gradient_from": "#C99408", "gradient_to": "#8A6603" }
+          "settings": {
+            "title": "Humor",
+            "emoji": "😂",
+            "link": "/collections/all/humor",
+            "gradient_from": "#C99408",
+            "gradient_to": "#8A6603"
+          }
         },
         "vibe_hustle": {
           "type": "vibe",
-          "settings": { "title": "Hustle", "emoji": "💪", "link": "/collections/all/hustle", "gradient_from": "#0E8A4C", "gradient_to": "#075E32" }
+          "settings": {
+            "title": "Hustle",
+            "emoji": "💪",
+            "link": "/collections/all/hustle",
+            "gradient_from": "#0E8A4C",
+            "gradient_to": "#075E32"
+          }
         },
         "vibe_desi": {
           "type": "vibe",
-          "settings": { "title": "Desi", "emoji": "🪷", "link": "/collections/all/desi", "gradient_from": "#D14E0E", "gradient_to": "#8F3204" }
+          "settings": {
+            "title": "Desi",
+            "emoji": "🪷",
+            "link": "/collections/all/desi",
+            "gradient_from": "#D14E0E",
+            "gradient_to": "#8F3204"
+          }
         },
         "vibe_cars": {
           "type": "vibe",
-          "settings": { "title": "Cars & Bikes", "emoji": "🏎️", "link": "/collections/all/cars", "gradient_from": "#C22525", "gradient_to": "#7E1414" }
+          "settings": {
+            "title": "Cars & Bikes",
+            "emoji": "🏎️",
+            "link": "/collections/all/cars",
+            "gradient_from": "#C22525",
+            "gradient_to": "#7E1414"
+          }
         },
         "vibe_gaming": {
           "type": "vibe",
-          "settings": { "title": "Gaming", "emoji": "🎮", "link": "/collections/all/gaming", "gradient_from": "#0E7C8A", "gradient_to": "#07515C" }
+          "settings": {
+            "title": "Gaming",
+            "emoji": "🎮",
+            "link": "/collections/all/gaming",
+            "gradient_from": "#0E7C8A",
+            "gradient_to": "#07515C"
+          }
         },
         "vibe_tech": {
           "type": "vibe",
-          "settings": { "title": "Tech & Code", "emoji": "💻", "link": "/collections/all/tech", "gradient_from": "#1F52B5", "gradient_to": "#123274" }
+          "settings": {
+            "title": "Tech & Code",
+            "emoji": "💻",
+            "link": "/collections/all/tech",
+            "gradient_from": "#1F52B5",
+            "gradient_to": "#123274"
+          }
         },
         "vibe_music": {
           "type": "vibe",
-          "settings": { "title": "Music", "emoji": "🎸", "link": "/collections/all/music", "gradient_from": "#C22566", "gradient_to": "#7E1440" }
+          "settings": {
+            "title": "Music",
+            "emoji": "🎸",
+            "link": "/collections/all/music",
+            "gradient_from": "#C22566",
+            "gradient_to": "#7E1440"
+          }
         },
         "vibe_love": {
           "type": "vibe",
-          "settings": { "title": "Love", "emoji": "❤️", "link": "/collections/all/love", "gradient_from": "#C2254B", "gradient_to": "#7E142E" }
+          "settings": {
+            "title": "Love",
+            "emoji": "❤️",
+            "link": "/collections/all/love",
+            "gradient_from": "#C2254B",
+            "gradient_to": "#7E142E"
+          }
         },
         "vibe_space": {
           "type": "vibe",
-          "settings": { "title": "Space", "emoji": "🚀", "link": "/collections/all/space", "gradient_from": "#5B32C7", "gradient_to": "#38187F" }
+          "settings": {
+            "title": "Space",
+            "emoji": "🚀",
+            "link": "/collections/all/space",
+            "gradient_from": "#5B32C7",
+            "gradient_to": "#38187F"
+          }
         },
         "vibe_food": {
           "type": "vibe",
-          "settings": { "title": "Food", "emoji": "🍕", "link": "/collections/all/food", "gradient_from": "#C97808", "gradient_to": "#8A5203" }
+          "settings": {
+            "title": "Food",
+            "emoji": "🍕",
+            "link": "/collections/all/food",
+            "gradient_from": "#C97808",
+            "gradient_to": "#8A5203"
+          }
         },
         "vibe_warning": {
           "type": "vibe",
-          "settings": { "title": "Warning Signs", "emoji": "⚠️", "link": "/collections/all/warning", "gradient_from": "#B8860B", "gradient_to": "#7A5807" }
+          "settings": {
+            "title": "Warning Signs",
+            "emoji": "⚠️",
+            "link": "/collections/all/warning",
+            "gradient_from": "#B8860B",
+            "gradient_to": "#7A5807"
+          }
         },
         "vibe_animals": {
           "type": "vibe",
-          "settings": { "title": "Animals", "emoji": "🐾", "link": "/collections/all/animals", "gradient_from": "#B45309", "gradient_to": "#7C3A05" }
+          "settings": {
+            "title": "Animals",
+            "emoji": "🐾",
+            "link": "/collections/all/animals",
+            "gradient_from": "#B45309",
+            "gradient_to": "#7C3A05"
+          }
         },
         "vibe_abstract": {
           "type": "vibe",
-          "settings": { "title": "Abstract", "emoji": "🎨", "link": "/collections/all/abstract", "gradient_from": "#7C3AED", "gradient_to": "#4C1D95" }
+          "settings": {
+            "title": "Abstract",
+            "emoji": "🎨",
+            "link": "/collections/all/abstract",
+            "gradient_from": "#7C3AED",
+            "gradient_to": "#4C1D95"
+          }
         },
         "vibe_mystery": {
           "type": "vibe",
-          "settings": { "title": "Mystery", "emoji": "🎁", "link": "/collections/all/mystery", "gradient_from": "#334155", "gradient_to": "#0F172A" }
+          "settings": {
+            "title": "Mystery",
+            "emoji": "🎁",
+            "link": "/collections/all/mystery",
+            "gradient_from": "#334155",
+            "gradient_to": "#0F172A"
+          }
         }
       },
       "block_order": [
@@ -261,9 +378,9 @@
         "view_all_style": "solid",
         "enable_desktop_slider": false,
         "swipe_on_mobile": false,
-        "image_ratio": "adapt",
+        "image_ratio": "square",
         "image_shape": "default",
-        "show_secondary_image": true,
+        "show_secondary_image": false,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",

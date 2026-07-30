@@ -111,9 +111,11 @@
       {%- endfor -%}
     </nav>
 
-    {%- if section.settings.sticky == false -%}
-      <span class="pv-filter__fade" aria-hidden="true"></span>
-    {%- endif -%}
+    {%- comment -%}
+      Always rendered: the rail clips mid-label when it overflows, and without
+      this the cut edge reads as a broken layout rather than "scroll for more".
+    {%- endcomment -%}
+    <span class="pv-filter__fade" aria-hidden="true"></span>
   </div>
 </section>
 

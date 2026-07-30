@@ -293,6 +293,12 @@
     {{ 'posterverse.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'posterverse.js' | asset_url }}" defer="defer"></script>
 
+    {%- comment -%} Infinite scroll only matters where a product grid paginates {%- endcomment -%}
+    {%- if template.name == 'collection' or template.name == 'search' -%}
+      {{ 'pv-infinite-scroll.css' | asset_url | stylesheet_tag }}
+      <script src="{{ 'pv-infinite-scroll.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
     {%- if settings.cart_type == 'drawer' -%}
       {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
       {{ 'component-cart.css' | asset_url | stylesheet_tag }}

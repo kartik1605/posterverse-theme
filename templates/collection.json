@@ -13,59 +13,143 @@
       "blocks": {
         "chip_humor": {
           "type": "chip",
-          "settings": { "title": "Humor", "tag": "humor", "emoji": "😂", "gradient_from": "#C99408", "gradient_to": "#8A6603" }
+          "settings": {
+            "title": "Humor",
+            "tag": "humor",
+            "emoji": "😂",
+            "gradient_from": "#C99408",
+            "gradient_to": "#8A6603"
+          }
         },
         "chip_hustle": {
           "type": "chip",
-          "settings": { "title": "Hustle", "tag": "hustle", "emoji": "💪", "gradient_from": "#0E8A4C", "gradient_to": "#075E32" }
+          "settings": {
+            "title": "Hustle",
+            "tag": "hustle",
+            "emoji": "💪",
+            "gradient_from": "#0E8A4C",
+            "gradient_to": "#075E32"
+          }
         },
         "chip_desi": {
           "type": "chip",
-          "settings": { "title": "Desi", "tag": "desi", "emoji": "🪷", "gradient_from": "#D14E0E", "gradient_to": "#8F3204" }
+          "settings": {
+            "title": "Desi",
+            "tag": "desi",
+            "emoji": "🪷",
+            "gradient_from": "#D14E0E",
+            "gradient_to": "#8F3204"
+          }
         },
         "chip_cars": {
           "type": "chip",
-          "settings": { "title": "Cars & Bikes", "tag": "cars", "emoji": "🏎️", "gradient_from": "#C22525", "gradient_to": "#7E1414" }
+          "settings": {
+            "title": "Cars & Bikes",
+            "tag": "cars",
+            "emoji": "🏎️",
+            "gradient_from": "#C22525",
+            "gradient_to": "#7E1414"
+          }
         },
         "chip_gaming": {
           "type": "chip",
-          "settings": { "title": "Gaming", "tag": "gaming", "emoji": "🎮", "gradient_from": "#0E7C8A", "gradient_to": "#07515C" }
+          "settings": {
+            "title": "Gaming",
+            "tag": "gaming",
+            "emoji": "🎮",
+            "gradient_from": "#0E7C8A",
+            "gradient_to": "#07515C"
+          }
         },
         "chip_tech": {
           "type": "chip",
-          "settings": { "title": "Tech & Code", "tag": "tech", "emoji": "💻", "gradient_from": "#1F52B5", "gradient_to": "#123274" }
+          "settings": {
+            "title": "Tech & Code",
+            "tag": "tech",
+            "emoji": "💻",
+            "gradient_from": "#1F52B5",
+            "gradient_to": "#123274"
+          }
         },
         "chip_music": {
           "type": "chip",
-          "settings": { "title": "Music", "tag": "music", "emoji": "🎸", "gradient_from": "#C22566", "gradient_to": "#7E1440" }
+          "settings": {
+            "title": "Music",
+            "tag": "music",
+            "emoji": "🎸",
+            "gradient_from": "#C22566",
+            "gradient_to": "#7E1440"
+          }
         },
         "chip_love": {
           "type": "chip",
-          "settings": { "title": "Love", "tag": "love", "emoji": "❤️", "gradient_from": "#C2254B", "gradient_to": "#7E142E" }
+          "settings": {
+            "title": "Love",
+            "tag": "love",
+            "emoji": "❤️",
+            "gradient_from": "#C2254B",
+            "gradient_to": "#7E142E"
+          }
         },
         "chip_space": {
           "type": "chip",
-          "settings": { "title": "Space", "tag": "space", "emoji": "🚀", "gradient_from": "#5B32C7", "gradient_to": "#38187F" }
+          "settings": {
+            "title": "Space",
+            "tag": "space",
+            "emoji": "🚀",
+            "gradient_from": "#5B32C7",
+            "gradient_to": "#38187F"
+          }
         },
         "chip_food": {
           "type": "chip",
-          "settings": { "title": "Food", "tag": "food", "emoji": "🍕", "gradient_from": "#C97808", "gradient_to": "#8A5203" }
+          "settings": {
+            "title": "Food",
+            "tag": "food",
+            "emoji": "🍕",
+            "gradient_from": "#C97808",
+            "gradient_to": "#8A5203"
+          }
         },
         "chip_warning": {
           "type": "chip",
-          "settings": { "title": "Warning Signs", "tag": "warning", "emoji": "⚠️", "gradient_from": "#B8860B", "gradient_to": "#7A5807" }
+          "settings": {
+            "title": "Warning Signs",
+            "tag": "warning",
+            "emoji": "⚠️",
+            "gradient_from": "#B8860B",
+            "gradient_to": "#7A5807"
+          }
         },
         "chip_animals": {
           "type": "chip",
-          "settings": { "title": "Animals", "tag": "animals", "emoji": "🐾", "gradient_from": "#B45309", "gradient_to": "#7C3A05" }
+          "settings": {
+            "title": "Animals",
+            "tag": "animals",
+            "emoji": "🐾",
+            "gradient_from": "#B45309",
+            "gradient_to": "#7C3A05"
+          }
         },
         "chip_abstract": {
           "type": "chip",
-          "settings": { "title": "Abstract", "tag": "abstract", "emoji": "🎨", "gradient_from": "#7C3AED", "gradient_to": "#4C1D95" }
+          "settings": {
+            "title": "Abstract",
+            "tag": "abstract",
+            "emoji": "🎨",
+            "gradient_from": "#7C3AED",
+            "gradient_to": "#4C1D95"
+          }
         },
         "chip_mystery": {
           "type": "chip",
-          "settings": { "title": "Mystery", "tag": "mystery", "emoji": "🎁", "gradient_from": "#334155", "gradient_to": "#0F172A" }
+          "settings": {
+            "title": "Mystery",
+            "tag": "mystery",
+            "emoji": "🎁",
+            "gradient_from": "#334155",
+            "gradient_to": "#0F172A"
+          }
         }
       },
       "block_order": [
@@ -101,7 +185,7 @@
         "products_per_page": 16,
         "columns_desktop": 4,
         "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
+        "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": false,
         "show_vendor": false,
