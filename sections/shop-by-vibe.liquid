@@ -57,11 +57,19 @@
           -%}
 
           <a
-            class="pv-vibe__tile"
+            class="pv-vibe__tile{% if block.settings.size != 'standard' %} pv-vibe__tile--{{ block.settings.size }}{% endif %}"
             href="{{ vibe_url }}"
             style="--pv-g1: {{ block.settings.gradient_from | default: '#6C3BF4' }}; --pv-g2: {{ block.settings.gradient_to | default: '#4C1D95' }};"
             {{ block.shopify_attributes }}
           >
+            {%- comment -%}
+              Oversized watermark of the same glyph, bleeding off the corner.
+              Purely decorative — the icon chip below carries the meaning.
+            {%- endcomment -%}
+            {%- if block.settings.emoji != blank -%}
+              <span class="pv-vibe__watermark" aria-hidden="true">{{ block.settings.emoji }}</span>
+            {%- endif -%}
+
             <span class="pv-vibe__icon" aria-hidden="true">
               {%- if block.settings.icon_image != blank -%}
                 <img
@@ -76,15 +84,19 @@
               {%- endif -%}
             </span>
 
-            <span class="pv-vibe__name">{{ vibe_name | escape }}</span>
+            <span class="pv-vibe__body">
+              <span class="pv-vibe__name">{{ vibe_name | escape }}</span>
 
-            {%- if section.settings.show_counts and vibe_collection != blank -%}
-              <span class="pv-vibe__count">
-                {{ count }} {% if count == 1 %}design{% else %}designs{% endif %}
-              </span>
-            {%- elsif block.settings.caption != blank -%}
-              <span class="pv-vibe__count">{{ block.settings.caption | escape }}</span>
-            {%- endif -%}
+              {%- if section.settings.show_counts and vibe_collection != blank -%}
+                <span class="pv-vibe__count">
+                  {{ count }} {% if count == 1 %}design{% else %}designs{% endif %}
+                </span>
+              {%- elsif block.settings.caption != blank -%}
+                <span class="pv-vibe__count">{{ block.settings.caption | escape }}</span>
+              {%- endif -%}
+            </span>
+
+            <span class="pv-vibe__arrow" aria-hidden="true">&rarr;</span>
           </a>
         {%- endfor -%}
       </div>
@@ -158,6 +170,19 @@
       "type": "vibe",
       "name": "Vibe",
       "settings": [
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Tile size",
+          "info": "Mix sizes so the grid reads as a composition rather than a repeating block.",
+          "options": [
+            { "value": "standard", "label": "Standard" },
+            { "value": "wide", "label": "Wide" },
+            { "value": "tall", "label": "Tall" },
+            { "value": "feature", "label": "Feature (large)" }
+          ],
+          "default": "standard"
+        },
         {
           "type": "collection",
           "id": "collection",

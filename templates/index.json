@@ -201,7 +201,8 @@
             "emoji": "😂",
             "link": "/collections/all/humor",
             "gradient_from": "#C99408",
-            "gradient_to": "#8A6603"
+            "gradient_to": "#8A6603",
+            "size": "feature"
           }
         },
         "vibe_hustle": {
@@ -211,7 +212,8 @@
             "emoji": "💪",
             "link": "/collections/all/hustle",
             "gradient_from": "#0E8A4C",
-            "gradient_to": "#075E32"
+            "gradient_to": "#075E32",
+            "size": "standard"
           }
         },
         "vibe_desi": {
@@ -221,7 +223,8 @@
             "emoji": "🪷",
             "link": "/collections/all/desi",
             "gradient_from": "#D14E0E",
-            "gradient_to": "#8F3204"
+            "gradient_to": "#8F3204",
+            "size": "wide"
           }
         },
         "vibe_cars": {
@@ -231,7 +234,8 @@
             "emoji": "🏎️",
             "link": "/collections/all/cars",
             "gradient_from": "#C22525",
-            "gradient_to": "#7E1414"
+            "gradient_to": "#7E1414",
+            "size": "standard"
           }
         },
         "vibe_gaming": {
@@ -241,7 +245,8 @@
             "emoji": "🎮",
             "link": "/collections/all/gaming",
             "gradient_from": "#0E7C8A",
-            "gradient_to": "#07515C"
+            "gradient_to": "#07515C",
+            "size": "standard"
           }
         },
         "vibe_tech": {
@@ -251,7 +256,8 @@
             "emoji": "💻",
             "link": "/collections/all/tech",
             "gradient_from": "#1F52B5",
-            "gradient_to": "#123274"
+            "gradient_to": "#123274",
+            "size": "wide"
           }
         },
         "vibe_music": {
@@ -261,7 +267,8 @@
             "emoji": "🎸",
             "link": "/collections/all/music",
             "gradient_from": "#C22566",
-            "gradient_to": "#7E1440"
+            "gradient_to": "#7E1440",
+            "size": "standard"
           }
         },
         "vibe_love": {
@@ -271,7 +278,8 @@
             "emoji": "❤️",
             "link": "/collections/all/love",
             "gradient_from": "#C2254B",
-            "gradient_to": "#7E142E"
+            "gradient_to": "#7E142E",
+            "size": "standard"
           }
         },
         "vibe_space": {
@@ -281,7 +289,8 @@
             "emoji": "🚀",
             "link": "/collections/all/space",
             "gradient_from": "#5B32C7",
-            "gradient_to": "#38187F"
+            "gradient_to": "#38187F",
+            "size": "feature"
           }
         },
         "vibe_food": {
@@ -291,7 +300,8 @@
             "emoji": "🍕",
             "link": "/collections/all/food",
             "gradient_from": "#C97808",
-            "gradient_to": "#8A5203"
+            "gradient_to": "#8A5203",
+            "size": "standard"
           }
         },
         "vibe_warning": {
@@ -301,7 +311,8 @@
             "emoji": "⚠️",
             "link": "/collections/all/warning",
             "gradient_from": "#B8860B",
-            "gradient_to": "#7A5807"
+            "gradient_to": "#7A5807",
+            "size": "standard"
           }
         },
         "vibe_animals": {
@@ -311,7 +322,8 @@
             "emoji": "🐾",
             "link": "/collections/all/animals",
             "gradient_from": "#B45309",
-            "gradient_to": "#7C3A05"
+            "gradient_to": "#7C3A05",
+            "size": "wide"
           }
         },
         "vibe_abstract": {
@@ -321,7 +333,8 @@
             "emoji": "🎨",
             "link": "/collections/all/abstract",
             "gradient_from": "#7C3AED",
-            "gradient_to": "#4C1D95"
+            "gradient_to": "#4C1D95",
+            "size": "standard"
           }
         },
         "vibe_mystery": {
@@ -331,25 +344,26 @@
             "emoji": "🎁",
             "link": "/collections/all/mystery",
             "gradient_from": "#334155",
-            "gradient_to": "#0F172A"
+            "gradient_to": "#0F172A",
+            "size": "wide"
           }
         }
       },
       "block_order": [
         "vibe_humor",
-        "vibe_hustle",
         "vibe_desi",
+        "vibe_hustle",
         "vibe_cars",
-        "vibe_gaming",
         "vibe_tech",
+        "vibe_gaming",
         "vibe_music",
-        "vibe_love",
         "vibe_space",
-        "vibe_food",
-        "vibe_warning",
         "vibe_animals",
-        "vibe_abstract",
-        "vibe_mystery"
+        "vibe_love",
+        "vibe_food",
+        "vibe_mystery",
+        "vibe_warning",
+        "vibe_abstract"
       ],
       "settings": {
         "kicker": "Explore the collection",

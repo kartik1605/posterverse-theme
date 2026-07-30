@@ -1,14 +1,17 @@
 /* ============================================================
-   POSTERVERSE — Shop by Vibe section
+   POSTERVERSE — Shop by Vibe (bento mosaic)
+
+   Tiles vary in size rather than repeating one rectangle, so the block
+   reads as a composition instead of a template. Each tile carries an
+   oversized emoji watermark bleeding off its corner, which gives scale
+   contrast against the small label and stops large tiles feeling empty.
    ============================================================ */
 
 .pv-vibe {
   position: relative;
   color: var(--pv-cream);
-  /* The floor is var-free so it can never be invalidated: an empty custom
-     property kills its whole declaration, and this section's text is cream.
-     The merchant's colour rides on background-image instead — if that value
-     is bad, only the image layers drop and the floor keeps showing through. */
+  /* Var-free floor; the merchant colour rides on background-image so an
+     empty setting can only drop the image layers, never the floor. */
   background-color: #100C18;
   background-image:
     radial-gradient(46rem 26rem at 92% 0%, rgba(108, 59, 244, .25), transparent 60%),
@@ -16,13 +19,14 @@
   border-block: 3px solid var(--pv-ink);
 }
 
+/* ---------- heading ---------- */
 .pv-vibe__head {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 2rem;
   flex-wrap: wrap;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 .pv-vibe__kicker {
   display: block;
@@ -45,113 +49,199 @@
 .pv-vibe__sub {
   margin: 0;
   color: rgba(250, 244, 235, .6);
-  max-width: 40ch;
+  max-width: 34ch;
 }
 
+/* ---------- bento grid ----------
+   dense packing lets the mixed spans backfill gaps rather than leaving
+   holes when a merchant reorders or removes tiles. */
 .pv-vibe__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
-  gap: 1.1rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-rows: 148px;
+  grid-auto-flow: dense;
+  gap: .9rem;
 }
+.pv-vibe__tile--feature { grid-column: span 2; grid-row: span 2; }
+.pv-vibe__tile--wide { grid-column: span 2; }
+.pv-vibe__tile--tall { grid-row: span 2; }
 
+/* ---------- tile ---------- */
 .pv-vibe__tile {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: .35rem;
-  padding: 1.5rem 1.1rem 1.3rem;
-  text-align: center;
+  justify-content: flex-end;
+  padding: 1.15rem;
   text-decoration: none;
   color: #fff;
-  border: 2px solid rgba(255, 255, 255, .14);
-  border-radius: 20px;
-  /* Solid floor keeps the white tile text readable even if a gradient
-     colour is missing; the gradient layers over it. */
+  border-radius: 18px;
+  /* Solid floor keeps the white label readable if a gradient colour is
+     missing; the gradient layers over it. */
   background-color: #4C1D95;
   background-image: linear-gradient(150deg, var(--pv-g1, #6C3BF4), var(--pv-g2, #4C1D95));
-  transition: transform .3s var(--pv-ease-spring), box-shadow .3s, border-color .3s;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 1px 2px rgba(0, 0, 0, .4);
+  transition:
+    transform .35s var(--pv-ease-spring),
+    box-shadow .35s var(--pv-ease-out),
+    filter .35s var(--pv-ease-out);
 }
+
+/* Grain — keeps the flat gradients from looking plasticky */
 .pv-vibe__tile::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(12rem 6rem at 50% -20%, rgba(255, 255, 255, .28), transparent 70%);
-  opacity: 0;
-  transition: opacity .3s;
+  z-index: -1;
+  opacity: .16;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+
 .pv-vibe__tile:hover {
-  transform: translateY(-7px) rotate(-1deg);
-  box-shadow: 0 18px 34px rgba(0, 0, 0, .45);
-  border-color: rgba(255, 255, 255, .5);
+  transform: translateY(-6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 18px 34px rgba(0, 0, 0, .5);
+  filter: saturate(1.15);
   color: #fff;
 }
-.pv-vibe__tile:hover::after { opacity: 1; }
+.pv-vibe__tile:focus-visible {
+  outline: 3px solid var(--pv-yellow);
+  outline-offset: 3px;
+}
 
-.pv-vibe__icon {
-  position: relative;
-  z-index: 1;
-  font-size: 2.3rem;
+/* ---------- oversized watermark ---------- */
+.pv-vibe__watermark {
+  position: absolute;
+  right: -.35em;
+  top: -.25em;
+  z-index: -1;
+  font-size: 5.5rem;
   line-height: 1;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .35));
-  transition: transform .3s var(--pv-ease-spring);
+  opacity: .28;
+  filter: saturate(0) contrast(1.4) brightness(1.6);
+  transform: rotate(-12deg);
+  transition: transform .45s var(--pv-ease-spring), opacity .35s;
+  pointer-events: none;
+  user-select: none;
 }
-.pv-vibe__icon img { width: 2.3rem; height: 2.3rem; object-fit: contain; }
-.pv-vibe__tile:hover .pv-vibe__icon { transform: scale(1.25) rotate(-8deg); }
+.pv-vibe__tile:hover .pv-vibe__watermark {
+  transform: rotate(4deg) scale(1.12);
+  opacity: .38;
+}
+.pv-vibe__tile--feature .pv-vibe__watermark { font-size: 11rem; }
+.pv-vibe__tile--wide .pv-vibe__watermark,
+.pv-vibe__tile--tall .pv-vibe__watermark { font-size: 7.5rem; }
 
+/* ---------- label block ---------- */
+.pv-vibe__body {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
 .pv-vibe__name {
-  position: relative;
-  z-index: 1;
   font-family: var(--pv-font-display);
-  font-size: .88rem;
+  font-size: .92rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .04em;
+  letter-spacing: .01em;
+  line-height: 1.2;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .35);
 }
+.pv-vibe__tile--feature .pv-vibe__name { font-size: 1.5rem; }
+.pv-vibe__tile--wide .pv-vibe__name,
+.pv-vibe__tile--tall .pv-vibe__name { font-size: 1.1rem; }
+
 .pv-vibe__count {
-  position: relative;
-  z-index: 1;
-  font-size: .76rem;
-  opacity: .8;
+  font-size: .74rem;
+  font-weight: 600;
+  opacity: .75;
 }
 
-/* --- tablet --- */
+/* Small icon chip, distinct from the watermark */
+.pv-vibe__icon {
+  position: absolute;
+  top: 1rem;
+  left: 1.15rem;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.05rem;
+  line-height: 1;
+  border-radius: 9px;
+  background: rgba(0, 0, 0, .28);
+  border: 1px solid rgba(255, 255, 255, .22);
+  backdrop-filter: blur(4px);
+  transition: transform .35s var(--pv-ease-spring);
+}
+.pv-vibe__tile:hover .pv-vibe__icon { transform: rotate(-8deg) scale(1.1); }
+.pv-vibe__icon img { width: 1.15rem; height: 1.15rem; object-fit: contain; }
+
+/* ---------- arrow ---------- */
+.pv-vibe__arrow {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: 1.9rem;
+  height: 1.9rem;
+  display: grid;
+  place-items: center;
+  font-size: .95rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .16);
+  border: 1px solid rgba(255, 255, 255, .28);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity .3s, transform .3s var(--pv-ease-spring);
+}
+.pv-vibe__tile:hover .pv-vibe__arrow { opacity: 1; transform: translateX(0); }
+
+/* ---------- tablet ---------- */
 @media screen and (max-width: 989px) {
-  .pv-vibe__grid { grid-template-columns: repeat(auto-fill, minmax(142px, 1fr)); gap: .9rem; }
-  .pv-vibe__head { margin-bottom: 2.25rem; }
+  .pv-vibe__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 140px; }
   .pv-vibe__sub { max-width: none; }
+  .pv-vibe__head { margin-bottom: 2rem; }
+  .pv-vibe__tile--feature .pv-vibe__watermark { font-size: 9rem; }
 }
 
-/* --- mobile --- */
+/* ---------- mobile ---------- */
 @media screen and (max-width: 749px) {
-  .pv-vibe__grid { grid-template-columns: repeat(2, 1fr); gap: .7rem; }
-  .pv-vibe__head { margin-bottom: 1.75rem; gap: .75rem; }
+  .pv-vibe__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 124px; gap: .7rem; }
+  /* A 2x2 feature would eat the whole viewport; keep it wide but short */
+  .pv-vibe__tile--feature { grid-column: span 2; grid-row: span 1; }
+  .pv-vibe__tile--tall { grid-row: span 1; }
+
   .pv-vibe__title { font-size: clamp(1.6rem, 7vw, 2.1rem); }
   .pv-vibe__kicker { font-size: .74rem; margin-bottom: .5rem; }
+  .pv-vibe__head { margin-bottom: 1.5rem; gap: .6rem; }
 
-  .pv-vibe__tile {
-    padding: 1.15rem .7rem 1rem;
-    border-radius: 16px;
-    gap: .25rem;
-  }
-  .pv-vibe__icon { font-size: 1.85rem; }
-  .pv-vibe__icon img { width: 1.85rem; height: 1.85rem; }
-  .pv-vibe__name { font-size: .78rem; line-height: 1.25; }
+  .pv-vibe__tile { padding: .9rem; border-radius: 15px; }
+  .pv-vibe__name { font-size: .82rem; }
+  .pv-vibe__tile--feature .pv-vibe__name { font-size: 1.05rem; }
   .pv-vibe__count { font-size: .68rem; }
+  .pv-vibe__watermark { font-size: 4.5rem; }
+  .pv-vibe__tile--feature .pv-vibe__watermark,
+  .pv-vibe__tile--wide .pv-vibe__watermark { font-size: 5.5rem; }
+  .pv-vibe__icon { width: 1.7rem; height: 1.7rem; font-size: .9rem; top: .8rem; left: .9rem; }
 
-  /* Hover lift is meaningless on touch; use a press state instead */
-  .pv-vibe__tile:hover { transform: none; box-shadow: none; }
+  /* Hover states are meaningless on touch; use a press response instead */
+  .pv-vibe__tile:hover { transform: none; filter: none; }
   .pv-vibe__tile:active { transform: scale(.97); }
+  .pv-vibe__arrow { display: none; }
 }
 
-@media screen and (max-width: 400px) {
-  .pv-vibe__tile { padding: 1rem .5rem .9rem; }
-  .pv-vibe__icon { font-size: 1.6rem; }
-  .pv-vibe__name { font-size: .72rem; }
+@media screen and (max-width: 380px) {
+  .pv-vibe__grid { grid-auto-rows: 112px; }
+  .pv-vibe__name { font-size: .76rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pv-vibe__tile, .pv-vibe__icon { transition: none; }
+  .pv-vibe__tile,
+  .pv-vibe__watermark,
+  .pv-vibe__icon,
+  .pv-vibe__arrow { transition: none; }
   .pv-vibe__tile:hover { transform: none; }
+  .pv-vibe__tile:hover .pv-vibe__watermark,
+  .pv-vibe__tile:hover .pv-vibe__icon { transform: none; }
 }
