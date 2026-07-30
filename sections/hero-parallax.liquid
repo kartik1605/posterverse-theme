@@ -8,8 +8,14 @@
 {%- endcomment -%}
 
 {%- liquid
-  assign grad_from = section.settings.gradient_from
-  assign grad_to = section.settings.gradient_to
+  # A colour setting left unset renders as an empty string. Emitting
+  # "--pv-grad-from: ;" invalidates the whole background declaration, which
+  # strands this section's cream text on a white page. Default every one.
+  assign grad_from = section.settings.gradient_from | default: '#221338'
+  assign grad_to = section.settings.gradient_to | default: '#17130E'
+  assign glow_1 = section.settings.glow_1 | default: '#6C3BF4'
+  assign glow_2 = section.settings.glow_2 | default: '#FF5C1F'
+  assign spark_color = section.settings.spark_color | default: '#FFC229'
 -%}
 
 <section
@@ -18,10 +24,10 @@
   style="
     --pv-grad-from: {{ grad_from }};
     --pv-grad-to: {{ grad_to }};
-    --pv-glow-1: {{ section.settings.glow_1 }};
-    --pv-glow-2: {{ section.settings.glow_2 }};
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
+    --pv-glow-1: {{ glow_1 }};
+    --pv-glow-2: {{ glow_2 }};
+    padding-top: {{ section.settings.padding_top | default: 88 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 104 }}px;
   "
 >
   <div class="pv-hero__bg" aria-hidden="true"></div>
@@ -91,8 +97,8 @@
         <svg class="pv-hero__orbits" viewBox="0 0 700 600" fill="none" focusable="false">
           <ellipse cx="350" cy="300" rx="330" ry="200" stroke="rgba(250,244,235,.25)" stroke-width="1.5" stroke-dasharray="3 8" />
           <ellipse cx="350" cy="300" rx="240" ry="130" stroke="rgba(255,194,41,.3)" stroke-width="1.5" transform="rotate(-14 350 300)" />
-          <circle cx="80" cy="140" r="4" fill="{{ section.settings.spark_color }}" />
-          <circle cx="620" cy="430" r="5" fill="{{ section.settings.glow_2 }}" />
+          <circle cx="80" cy="140" r="4" fill="{{ spark_color }}" />
+          <circle cx="620" cy="430" r="5" fill="{{ glow_2 }}" />
         </svg>
       {%- endif -%}
 
@@ -143,7 +149,7 @@
                 --pv-delay: {{ block.settings.delay }}s;
                 --pv-top: {{ block.settings.pos_top }}%;
                 --pv-left: {{ block.settings.pos_left }}%;
-                color: {{ section.settings.spark_color }};
+                color: {{ spark_color }};
               "
               {{ block.shopify_attributes }}
             >{{ block.settings.character | default: '✦' }}</span>

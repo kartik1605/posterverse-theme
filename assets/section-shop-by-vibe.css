@@ -5,9 +5,14 @@
 .pv-vibe {
   position: relative;
   color: var(--pv-cream);
-  background:
+  /* The floor is var-free so it can never be invalidated: an empty custom
+     property kills its whole declaration, and this section's text is cream.
+     The merchant's colour rides on background-image instead — if that value
+     is bad, only the image layers drop and the floor keeps showing through. */
+  background-color: #100C18;
+  background-image:
     radial-gradient(46rem 26rem at 92% 0%, rgba(108, 59, 244, .25), transparent 60%),
-    var(--pv-vibe-bg, #100C18);
+    linear-gradient(var(--pv-vibe-bg, #100C18), var(--pv-vibe-bg, #100C18));
   border-block: 3px solid var(--pv-ink);
 }
 
@@ -62,7 +67,10 @@
   color: #fff;
   border: 2px solid rgba(255, 255, 255, .14);
   border-radius: 20px;
-  background: linear-gradient(150deg, var(--pv-g1), var(--pv-g2));
+  /* Solid floor keeps the white tile text readable even if a gradient
+     colour is missing; the gradient layers over it. */
+  background-color: #4C1D95;
+  background-image: linear-gradient(150deg, var(--pv-g1, #6C3BF4), var(--pv-g2, #4C1D95));
   transition: transform .3s var(--pv-ease-spring), box-shadow .3s, border-color .3s;
 }
 .pv-vibe__tile::after {

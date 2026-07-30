@@ -31,7 +31,7 @@
 
 <section
   class="pv-filter{% if section.settings.sticky %} pv-filter--sticky{% endif %}"
-  style="--pv-filter-bg: {{ section.settings.background }};"
+  style="--pv-filter-bg: {{ section.settings.background | default: '#100C18' }};"
 >
   <div class="page-width pv-filter__inner">
     {%- if section.settings.label != blank -%}
@@ -50,7 +50,7 @@
           class="pv-chip"
           href="{{ routes.all_products_collection_url }}"
           {% if all_active %}aria-current="true"{% endif %}
-          style="--pv-g1: {{ section.settings.all_gradient_from }}; --pv-g2: {{ section.settings.all_gradient_to }};"
+          style="--pv-g1: {{ section.settings.all_gradient_from | default: '#FF5C1F' }}; --pv-g2: {{ section.settings.all_gradient_to | default: '#E44A10' }};"
         >
           <span class="pv-chip__emoji" aria-hidden="true">✦</span>
           {{ section.settings.all_label | default: 'All' | escape }}
@@ -97,7 +97,7 @@
           class="pv-chip"
           href="{{ chip_url }}"
           {% if is_active %}aria-current="true"{% endif %}
-          style="--pv-g1: {{ block.settings.gradient_from }}; --pv-g2: {{ block.settings.gradient_to }};"
+          style="--pv-g1: {{ block.settings.gradient_from | default: '#6C3BF4' }}; --pv-g2: {{ block.settings.gradient_to | default: '#38187F' }};"
           {{ block.shopify_attributes }}
         >
           {%- if block.settings.emoji != blank -%}

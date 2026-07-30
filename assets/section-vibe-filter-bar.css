@@ -7,18 +7,18 @@
 .pv-filter {
   position: relative;
   z-index: 3;
-  background: var(--pv-filter-bg, #100C18);
+  /* Var-free floor, merchant colour on background-image. An empty custom
+     property invalidates its entire declaration, so keeping the floor free
+     of vars is what stops cream chips landing on a white bar. */
+  background-color: #100C18;
+  background-image: linear-gradient(var(--pv-filter-bg, #100C18), var(--pv-filter-bg, #100C18));
   border-bottom: 1px solid rgba(250, 244, 235, .14);
 }
+/* Deliberately opaque rather than translucent: the bar sits over product
+   imagery while stuck, and legibility beats the glass effect. */
 .pv-filter--sticky {
   position: sticky;
   top: 0;
-  background: color-mix(in srgb, var(--pv-filter-bg, #100C18) 88%, transparent);
-  backdrop-filter: blur(14px) saturate(1.4);
-}
-/* color-mix is widely supported but fall back cleanly where it is not */
-@supports not (background: color-mix(in srgb, red 50%, blue)) {
-  .pv-filter--sticky { background: var(--pv-filter-bg, #100C18); }
 }
 
 .pv-filter__inner {
@@ -85,7 +85,8 @@
 
 .pv-chip[aria-current='true'],
 .pv-chip.pv-chip--active {
-  background: linear-gradient(140deg, var(--pv-g1, var(--pv-orange)), var(--pv-g2, var(--pv-orange-dark)));
+  background-color: #E44A10;
+  background-image: linear-gradient(140deg, var(--pv-g1, #FF5C1F), var(--pv-g2, #E44A10));
   border-color: rgba(255, 255, 255, .55);
   color: #fff;
   box-shadow: 0 8px 20px rgba(0, 0, 0, .38);

@@ -11,9 +11,9 @@
   id="shop-by-vibe"
   class="pv-vibe"
   style="
-    --pv-vibe-bg: {{ section.settings.background }};
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
+    --pv-vibe-bg: {{ section.settings.background | default: '#100C18' }};
+    padding-top: {{ section.settings.padding_top | default: 88 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | default: 88 }}px;
   "
 >
   <div class="page-width">
@@ -59,7 +59,7 @@
           <a
             class="pv-vibe__tile"
             href="{{ vibe_url }}"
-            style="--pv-g1: {{ block.settings.gradient_from }}; --pv-g2: {{ block.settings.gradient_to }};"
+            style="--pv-g1: {{ block.settings.gradient_from | default: '#6C3BF4' }}; --pv-g2: {{ block.settings.gradient_to | default: '#4C1D95' }};"
             {{ block.shopify_attributes }}
           >
             <span class="pv-vibe__icon" aria-hidden="true">
